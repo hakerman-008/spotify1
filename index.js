@@ -26,7 +26,7 @@ app.get('/spotify', async (req, res) => {
         const { query, id } = req.query;
 
         if (query) {
-          
+
             const options = {
                 method: 'GET',
                 url: 'https://spotify81.p.rapidapi.com/search',
@@ -38,22 +38,22 @@ app.get('/spotify', async (req, res) => {
                     numberOfTopResults: '5'
                 },
                 headers: {
-                    'X-RapidAPI-Key': 'b38444b5b7mshc6ce6bcd5c9e446p154fa1jsn7bbcfb025b3b',
+                    'X-RapidAPI-Key': '719775e815msh65471c929a0203bp10fe44jsndcb70c04bc42',
                     'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
                 }
             };
 
             const response = await axios.request(options);
-            
+
             const trackIDs = response.data.tracks.map(track => track.data.id);
             const trackURLs = trackIDs.map(trackID => `https://open.spotify.com/track/${trackID}`);
             return res.json({ trackURLs });
         } else if (id) {
-          
+
             const trackInfo = await fetchTrackInfo(id);
             return res.json(trackInfo);
         } else {
-           
+
             return res.status(400).json({ error: 'Query parameter "query" or "id" is required' });
         }
     } catch (error) {
