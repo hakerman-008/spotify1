@@ -9,7 +9,7 @@ async function fetchTrackInfo(trackURL) {
         url: 'https://spotify81.p.rapidapi.com/track',
         params: { id: trackURL },
         headers: {
-            'X-RapidAPI-Key': '719775e815msh65471c929a0203bp10fe44jsndcb70c04bc42',
+            'X-RapidAPI-Key':  '0c162a35d2msh1999dc27302c23bp15ac06jsnb872ad3d865a',
             'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
         }
     };
