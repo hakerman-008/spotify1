@@ -1,69 +1,36 @@
-const axios = require('axios');
 const express = require('express');
+const axios = require('axios');
+
 const app = express();
+const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
 
-async function fetchTrackInfo(trackURL) {
-    const options = {
-        method: 'GET',
-        url: 'https://spotify81.p.rapidapi.com/track',
-        params: { id: trackURL },
-        headers: {
-            'X-RapidAPI-Key':  '0c162a35d2msh1999dc27302c23bp15ac06jsnb872ad3d865a',
-            'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
-        }
-    };
-
-    const response = await axios.request(options);
-    const { title, artist, cover, download_link } = response.data;
-
-    return { title, artist, cover, download_link, track_url: trackURL };
-}
-
+const options = {
+  method: 'POST',
+  url: 'https://all-media-downloader1.p.rapidapi.com/pinterest_name',
+  headers: {
+    'content-type': 'application/json',
+    'X-RapidAPI-Key': 'b38444b5b7mshc6ce6bcd5c9e446p154fa1jsn7bbcfb025b3b',
+    'X-RapidAPI-Host': 'all-media-downloader1.p.rapidapi.com'
+  }
+};
 
 app.get('/spotify', async (req, res) => {
-    try {
-        const { query, id } = req.query;
+  try {
+    const { query } = req.query;
+    options.data = { q: query };
 
-        if (query) {
+    const response = await axios.request(options);
+    const trackURLs = response.data.result.data.map(track => track.url);
 
-            const options = {
-                method: 'GET',
-                url: 'https://spotify81.p.rapidapi.com/search',
-                params: {
-                    q: query,
-                    type: 'tracks',
-                    offset: '0',
-                    limit: '10',
-                    numberOfTopResults: '5'
-                },
-                headers: {
-                    'X-RapidAPI-Key': '719775e815msh65471c929a0203bp10fe44jsndcb70c04bc42',
-                    'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
-                }
-            };
-
-            const response = await axios.request(options);
-
-            const trackIDs = response.data.tracks.map(track => track.data.id);
-            const trackURLs = trackIDs.map(trackID => `https://open.spotify.com/track/${trackID}`);
-            return res.json({ trackURLs });
-        } else if (id) {
-
-            const trackInfo = await fetchTrackInfo(id);
-            return res.json(trackInfo);
-        } else {
-
-            return res.status(400).json({ error: 'Query parameter "query" or "id" is required' });
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
+    return res.json({ trackURLs });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
