@@ -42,7 +42,7 @@ app.get('/spotify', async (req, res) => {
 
     const trackUrls = response.data.tracks.items.map(track => track.external_urls.spotify);
 
-    res.json({ trackUrls });
+    res.json({ trackURLs });
   } catch (error) {
     console.error('Error fetching data from Spotify API:', error.message);
     res.status(500).json({ error: 'Failed to fetch data from Spotify API' });
