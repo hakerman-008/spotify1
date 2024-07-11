@@ -40,7 +40,7 @@ app.get('/spotify', async (req, res) => {
       }
     });
 
-    const trackUrls = response.data.tracks.items.map(track => track.external_urls.spotify);
+    const trackURLs = response.data.tracks.items.map(track => track.external_urls.spotify);
 
     res.json({ trackURLs });
   } catch (error) {
