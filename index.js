@@ -22,7 +22,7 @@ const getSpotifyToken = async () => {
 };
 
 app.get('/spotify', async (req, res) => {
-  const songName = req.query.search;
+  const songName = req.query.query;
 
   if (!spotifyToken) {
     await getSpotifyToken();
