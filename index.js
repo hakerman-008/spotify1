@@ -8,7 +8,7 @@ const port = 3000;
 const SPOTIFY_CLIENT_ID = 'e2e3873a132c42a5b7a47bd1c4ee2e6c';
 const SPOTIFY_CLIENT_SECRET = '5fbe456341f24578898379081ce624f5';
 
-let spotifyToken = '';
+let spotifyToken = ''; 
 
 const getSpotifyToken = async () => {
   const response = await axios.post('https://accounts.spotify.com/api/token', 
